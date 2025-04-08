@@ -10,7 +10,7 @@ public class CatalogoNegocio {
     ICatalogo catalogo;
 
     public CatalogoNegocio(ICatalogo catalogo){
-    this.catalogo = catalogo;
+        this.catalogo = catalogo;
     }
 
     public void adicionarFilme(Filme filme) throws FilmeJaEstanoCatalogoException {
@@ -28,14 +28,21 @@ public class CatalogoNegocio {
     }
 
     public void atualizarFilme(Filme filme) throws FilmeNaoEstaNoCatalogoException{
-        boolean existe = catalogo.existe(filme);
-        if (existe) catalogo.atualizaFilme(filme);
+        Filme filmedesejado = catalogo.procurarFilme(filme);
+        if (filmedesejado != null) catalogo.atualizaFilme(filme);
         else throw new FilmeNaoEstaNoCatalogoException();
     }
     public Filme procurarFilme(Filme filme) throws FilmeNaoEstaNoCatalogoException {
-        boolean existe = catalogo.existe(filme);
-        if (existe) return filme;
-        else throw new FilmeNaoEstaNoCatalogoException();
+        Filme filmeprocurado = catalogo.procurarFilme(filme);
+        if (filmeprocurado == null){
+            throw new FilmeNaoEstaNoCatalogoException();
+        }else return filmeprocurado;
+    }
+    public Filme procurarFilme(String filme) throws FilmeNaoEstaNoCatalogoException {
+        Filme filmeprocurado = catalogo.procurarFilme(filme);
+        if (filmeprocurado == null){
+            throw new FilmeNaoEstaNoCatalogoException();
+        }else return filmeprocurado;
     }
 
 

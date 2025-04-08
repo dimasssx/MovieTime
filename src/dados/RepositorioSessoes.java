@@ -69,6 +69,17 @@ public class RepositorioSessoes implements IRepositorioSessoes,Serializable{
     }
 
     @Override
+    public Sessao procurarSessao(String filme) {
+        Sessao sessaoprocurada = null;
+        for (Sessao sessao: sessoes){
+            if (sessoes.contains(filme)){
+                sessaoprocurada = sessao;
+                break;
+            }
+        } return sessaoprocurada;
+    }
+
+    @Override
     public boolean existe(Sessao sessao) {
         return sessoes.contains(sessao);
     }

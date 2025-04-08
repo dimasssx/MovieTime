@@ -1,6 +1,11 @@
 package fachada;
 
+import dados.Catalogo;
+import dados.ICatalogo;
+
 public class Gerente {
+
+    ICatalogo catalogo = new Catalogo();
 
     public void adicionarFilme(){}
     public void removerFilme(){}
