@@ -77,4 +77,7 @@ public class RepositorioSessoes implements IRepositorioSessoes,Serializable{
         }
 
     }
+    public ArrayList<Sessao> listarTodasSessoes() {
+        return this.sessoes; //Augusto
+    }
 }
