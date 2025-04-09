@@ -68,7 +68,7 @@ public class ClienteNegocio {
 
                 if (sessao.reservarAssento(fileira, poltrona)) {
                     Assento assento = sessao.getAssento(fileira, poltrona);
-                    Ingresso ingresso = new Ingresso(sessao, assento, cliente.getIsVIP());
+                    Ingresso ingresso = new Ingresso(sessao, assento);
 
 //                    if(cliente.getIngressosComprados != null){
 //                      cliente.adicionarIngresso(ingresso);

@@ -66,7 +66,11 @@ public class TelaCliente {
                     }
                     break;
                 case 3:
-                    //buscarsessoes
+                    try {
+                        buscarPorFilme();
+                    } catch (NenhumFilmeEncontradoException e) {
+                        System.err.println(e);
+                    }
                     break;
                 case 4:
                     System.out.println("Saindo...");
@@ -136,7 +140,44 @@ public class TelaCliente {
             }
 
         } catch (Exception e) {
-            System.out.println("Formato de data inválido. Use dd-MM.");
+            System.err.println("Formato de data inválido. Use dd-MM.");
+        }
+    }
+
+        public void buscarPorFilme() throws NenhumFilmeEncontradoException {
+        System.out.println("Digite o nome do Filme:");
+        String tituloInput = scanner.nextLine().trim();
+
+        ArrayList<Filme> filmes = fachada.imprimirCatalogo();
+        boolean encontrouFilme = false;
+
+        for (Filme filme : filmes) {
+            if (filme.getTitulo().equalsIgnoreCase(tituloInput)) {
+                encontrouFilme = true;
+                try {
+                    ArrayList<Sessao> sessoes = fachada.procurarSessaoTitulo(filme.getTitulo());
+
+                    if (sessoes.isEmpty()) {
+                        System.out.println("Nenhuma sessão encontrada para o filme: " + filme.getTitulo());
+                    } else {
+                        System.out.println("Sessões para o filme: " + filme.getTitulo());
+                        for (Sessao s : sessoes) {
+                            System.out.println("Dia: " + s.getDia().format(DateTimeFormatter.ofPattern("dd-MM")));
+                            System.out.println("Horário: " + s.getHorario());
+                            System.out.println(s);
+                            System.out.println("----------------------------");
+                        }
+                    }
+
+                } catch (SessaoNaoEncontradaException e) {
+                    System.out.println("Nenhuma sessão encontrada para o filme: " + filme.getTitulo());
+                }
+                break;
+            }
+        }
+
+        if (!encontrouFilme) {
+            System.out.println("Filme não encontrado no catálogo.");
         }
     }
 }
