@@ -29,9 +29,14 @@ public class SessoesNegocio {
         else throw new SessaoNaoEncontradaException();
 
     }
-    public Sessao procurarSessao(Sessao sessao){
+    public Sessao procurarSessao(Sessao sessao) throws SessaoNaoEncontradaException {
         Sessao s = sessoes.procurarSessao(sessao);
-        if (s != null) sessoes.atualizarSessao(sessao);
+        if (s != null) return s;
+        else throw new SessaoNaoEncontradaException();
+    }
+    public Sessao procurarSessao(String filme) throws SessaoNaoEncontradaException {
+        Sessao s = sessoes.procurarSessao(filme);
+        if (s != null) return s;
         else throw new SessaoNaoEncontradaException();
     }
 
