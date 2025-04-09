@@ -2,72 +2,63 @@ package negocio.entidades;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Objects;
+import dados.RepositorioSalas;
+import negocio.Exceptions.CodigoSalaJaExisteException;
+import negocio.Exceptions.LimiteSalasExcedidoException;
+import negocio.Exceptions.SalaNaoEncontradaException;
 
-public class Sala implements Serializable {
-    private static final int LINHAS = 8;
-    private static final int COLUNAS = 8;
+public abstract class Sala implements Serializable {
     @Serial
-    private static final long serialVersionUID = 7641162938185600740L;
-    private Assento[][] assentos;
-    private final String  CODIGO;
-    public static  int ID = 1;
-    private boolean disponivel;
+    private static final long serialVersionUID = -4009776605163947716L;
 
-    public Sala(){
-        CODIGO = "SALA" + ID++;
-        assentos = new Assento[LINHAS][COLUNAS];
-        for (int i = 0;i<LINHAS;i++){
-            for (int j= 0;j<COLUNAS;j++){
-                assentos[i][j]= new Assento(i+1,j+1);
+    private static final RepositorioSalas repositorio = new RepositorioSalas();
+    private final String codigo;
+    private final int linhas;
+    private final int colunas;
+    protected double precoBaseIngresso;
+    protected Assento[][] assentos;
+
+
+    public Sala(String codigo, int linhas, int colunas) {
+        this.codigo = codigo;
+        this.linhas = linhas;
+        this.colunas = colunas;
+        this.assentos = new Assento[linhas][colunas];
+        inicializarAssentos();
+    }
+
+    private void inicializarAssentos() {
+        for (int i = 0; i < linhas; i++) {
+            for (int j = 0; j < colunas; j++) {
+                assentos[i][j] = new Assento(i + 1, j + 1);
             }
-
         }
     }
-    public boolean isDisponivel(){
-        for (int i = 0;i<LINHAS;i++){
-            for (int j = 0;j<COLUNAS;j++){
-                if (!(assentos[i][j].isReservado())) return true;
-            }
-        }
-        //
-        return false;
+
+    public String getCodigo() {
+        return codigo;
     }
+
+    public int getLinhas() {
+        return linhas;
+    }
+
+    public int getColunas() {
+        return colunas;
+    }
+
+    public Assento[][] getAssentos() {
+        return assentos;
+    }
+
+    public abstract double calcularPrecoIngresso();
 
     @Override
     public String toString() {
-        return CODIGO;
+        return "Sala{" +
+                "codigo='" + codigo + '\'' +
+                ", linhas=" + linhas +
+                ", colunas=" + colunas +
+                '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Sala sala = (Sala) o;
-        return Objects.equals(CODIGO, sala.CODIGO);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(CODIGO);
-    }
-
-    public void imprime(){
-        for (int i = 0;i<LINHAS;i++){
-            for (int j = 0;j<COLUNAS;j++){
-                System.out.print(assentos[i][j]+ " ");
-            }
-            System.out.println();
-        }
-    }
-    public Assento[][] getAssentos() { //Augusto
-        return this.assentos;
-    }
-    public boolean temAssentosDisponiveis() {
-        for (Assento[] fileira : assentos) {
-            for (Assento a : fileira) {
-                if (!a.isReservado()) return true;
-            }
-        }
-        return false;
-    }
-}

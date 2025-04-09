@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class Filme implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -3611569296595373409L;
+    private static final long serialVersionUID = -4009776605163947716L;
 
     private String titulo;
     private String genero;
