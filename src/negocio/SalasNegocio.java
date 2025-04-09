@@ -33,9 +33,19 @@ public class SalasNegocio {
         salas.adicionarSala(sala);
     }
 
-    public void removerSala(Sala sala) throws SalaNaoEncontradaException {
-         if (salas.existe(sala)) salas.removerSala(sala);
-         else throw new SalaNaoEncontradaException("A sala " + sala.getCodigo() + " não foi encontrada.");
+    public void removerSala(String codigo) throws SalaNaoEncontradaException {
+         Sala salaDesejada = salas.procurarSala(codigo);
+         salas.removerSala(salaDesejada);
+    }
+
+    public void imprimirSalas(){
+         salas.imprimir();
+    }
+    public Sala procurarSala(String codigo) throws SalaNaoEncontradaException {
+         Sala saladesejada = salas.procurarSala(codigo);
+         if (saladesejada != null){
+             return saladesejada;
+         }else throw new SalaNaoEncontradaException("Sala nao foi encontrada");
     }
 }
 

@@ -20,6 +20,7 @@ public class Filme implements Serializable {
         this.classificacao = classificacao;
     }
 
+
     public String getDuracao() {
         return duracao;
     }

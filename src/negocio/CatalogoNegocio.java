@@ -25,6 +25,12 @@ public class CatalogoNegocio {
         boolean isFilmeNoCatalogo = catalogo.existe(filme);
         if (isFilmeNoCatalogo) catalogo.removerFilme(filme);
         else throw new FilmeNaoEstaNoCatalogoException();
+
+    }
+    public void removerFilme(String filme) throws FilmeNaoEstaNoCatalogoException {
+        Filme filmeprocurado = catalogo.procurarFilme(filme);
+        if (filmeprocurado != null) catalogo.removerFilme(filme);
+        else throw new FilmeNaoEstaNoCatalogoException();
     }
 
     public void atualizarFilme(Filme filme) throws FilmeNaoEstaNoCatalogoException{
@@ -44,6 +50,8 @@ public class CatalogoNegocio {
             throw new FilmeNaoEstaNoCatalogoException();
         }else return filmeprocurado;
     }
-
+    public void listarCatalogo(){
+        catalogo.imprimir();
+    }
 
 }

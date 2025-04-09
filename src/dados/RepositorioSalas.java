@@ -50,10 +50,10 @@ public class RepositorioSalas implements IRepositorioSalas, Serializable {
     }
 
     @Override
-    public void removerSala(Sala filme) {
-        int index = salas.indexOf(filme);
+    public void removerSala(Sala sala) {
+        int index = salas.indexOf(sala);
         if (index != -1) {
-            salas.remove(filme);
+            salas.remove(sala);
             escritaSalas();
         }
     }
@@ -68,13 +68,14 @@ public class RepositorioSalas implements IRepositorioSalas, Serializable {
     }
 
     @Override
-    public Sala procurarSala(Sala sala) {
-        Sala salaDesejada = null;
-        int index = salas.indexOf(sala);
-        if (index != -1) {
-            salaDesejada = salas.get(index);
+    public Sala procurarSala(String codigo) {
+        for(Sala s : salas){
+           if(s.getCodigo().equalsIgnoreCase(codigo)){
+               return s;
+           }
         }
-        return salaDesejada;
+        System.out.println("NAO ENCONTREI ZÉ");
+        return null;
     }
 
     @Override
@@ -96,6 +97,5 @@ public class RepositorioSalas implements IRepositorioSalas, Serializable {
 
 }
 
-public final class RepositorioSalas implements Serializable,IRepositorioSalas{
-}
+
  

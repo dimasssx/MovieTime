@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public interface ICatalogo {
 
     void adicionarFilme(Filme filme);
+    void removerFilme(String nome) ;
     void removerFilme(Filme filme) ;
     void atualizaFilme(Filme filme);
     Filme procurarFilme(Filme filme);

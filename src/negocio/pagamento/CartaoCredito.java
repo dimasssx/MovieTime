@@ -2,6 +2,12 @@
 package negocio.pagamento;
 
 public class CartaoCredito implements MetodoPagamento {
+    private String numero;
+    private String NomeTitular;
+    private String código;
+
+
+
     @Override
     public String getTipo() { return "Cartão de Crédito"; }
 

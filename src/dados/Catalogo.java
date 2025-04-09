@@ -57,6 +57,21 @@ public class Catalogo implements ICatalogo,Serializable {
             escritaCatalogoFilmes();
         }
     }
+    @Override
+    public void removerFilme(String nome) {
+        Filme filmeDesejado = null;
+        for (Filme filme: catalogo){
+            if(filme.getTitulo().equals(nome)){
+                filmeDesejado = filme;
+                break;
+            }
+        }
+        int index = catalogo.indexOf(filmeDesejado);
+        if (index != -1){
+            catalogo.remove(filmeDesejado);
+            escritaCatalogoFilmes();
+        }
+    }
 
     @Override
     public void atualizaFilme(Filme filme)  {
@@ -79,7 +94,7 @@ public class Catalogo implements ICatalogo,Serializable {
     public Filme procurarFilme(String nome) {
         Filme filmeDesejado = null;
         for (Filme filme: catalogo){
-            if(nome.equals(filme.getTitulo())){
+            if(filme.getTitulo().equals(nome)){
                 filmeDesejado = filme;
                 break;
             }
