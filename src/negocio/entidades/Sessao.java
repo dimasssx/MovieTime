@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Sessao implements Serializable {
     @Serial
-    private static final long serialVersionUID = -5907168795004785658L;
+    private static final long serialVersionUID = -4009776605163947716L;
     private LocalTime horario;
     private Filme filme;
     private Sala sala;
