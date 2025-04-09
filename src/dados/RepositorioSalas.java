@@ -5,6 +5,7 @@ import java.io.*;
 import negocio.entidades.Sala;
 import java.util.ArrayList;
 
+
 public class RepositorioSalas implements IRepositorioSalas, Serializable {
 
     @Serial
@@ -94,3 +95,7 @@ public class RepositorioSalas implements IRepositorioSalas, Serializable {
     }
 
 }
+
+public final class RepositorioSalas implements Serializable,IRepositorioSalas{
+}
+ 

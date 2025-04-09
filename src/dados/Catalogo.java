@@ -19,6 +19,7 @@ public class Catalogo implements ICatalogo,Serializable {
         if (file.exists()){
             lerCatalogoFilmes();
         }else {
+            catalogo = new ArrayList<Filme>();
             escritaCatalogoFilmes();
         }
     }
@@ -44,29 +45,44 @@ public class Catalogo implements ICatalogo,Serializable {
 
     @Override
     public void adicionarFilme(Filme filme){
-            catalogo.add(filme);
-            escritaCatalogoFilmes();
-
+        catalogo.add(filme);
+        escritaCatalogoFilmes();
     }
+
     @Override
     public void removerFilme(Filme filme) {
+        int index = catalogo.indexOf(filme);
+        if (index != -1){
             catalogo.remove(filme);
             escritaCatalogoFilmes();
+        }
     }
+
     @Override
     public void atualizaFilme(Filme filme)  {
         int index = catalogo.indexOf(filme);
-        if (index == -1){
+        if (index != -1){
             catalogo.set(index,filme);
             escritaCatalogoFilmes();
         }
     }
+
     @Override
     public Filme procurarFilme(Filme filme) {
         Filme filmeDesejado = null;
         int index = catalogo.indexOf(filme);
-        if (index == -1) {
+        if (index != -1) {
             filmeDesejado = catalogo.get(index);
+        }
+        return filmeDesejado;
+    }
+    public Filme procurarFilme(String nome) {
+        Filme filmeDesejado = null;
+        for (Filme filme: catalogo){
+            if(nome.equals(filme.getTitulo())){
+                filmeDesejado = filme;
+                break;
+            }
         }
         return filmeDesejado;
     }
@@ -75,6 +91,10 @@ public class Catalogo implements ICatalogo,Serializable {
         for (Filme filme : catalogo) {
             System.out.println(filme);
         }
+    }
 
+    @Override
+    public boolean existe(Filme filme){
+        return catalogo.contains(filme);
     }
 }

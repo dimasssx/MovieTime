@@ -38,4 +38,12 @@ public class Sessao implements Serializable {
     public int hashCode() {
         return Objects.hash(horario, sala);
     }
+    
+    public Sala getSala() { //Augusto
+        return this.sala;
+    }
+
+    public Filme getFilme() { //Augusto
+        return this.filme;
+    }
 }
