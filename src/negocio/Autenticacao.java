@@ -3,5 +3,7 @@ package negocio;
 import java.util.ArrayList;
 
 public class Autenticacao {
-    private ArrayList
+    public boolean autenticar(String nome) {
+        return nome.equals("admin");
+    }
 }
