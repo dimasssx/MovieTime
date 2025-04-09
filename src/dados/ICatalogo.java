@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 public interface ICatalogo {
 
-    void adicionarFilme(Filme filme) throws FilmeJaEstanoCatalogoException;
-    void removerFilme(Filme filme) throws FilmeNaoEstaNoCatalogoException;
-    void atualizaFilme(Filme filme) throws FilmeNaoEstaNoCatalogoException;
-    void imprimir();
-    Filme procurarFilme(Filme filme) throws FilmeNaoEstaNoCatalogoException;
+    void adicionarFilme(Filme filme);
+    void removerFilme(Filme filme) ;
+    void atualizaFilme(Filme filme);
+    Filme procurarFilme(Filme filme);
+    Filme procurarFilme(String nome);
+    boolean existe (Filme filme);
+    void imprimir(); //fazerretornararray
 
 }

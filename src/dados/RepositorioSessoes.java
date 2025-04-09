@@ -1,7 +1,5 @@
 package dados;
 
-import negocio.Exceptions.SalaIndisponivelException;
-import negocio.Exceptions.SessaoJaEstaNaSalaException;
 import negocio.Exceptions.SessaoNaoEncontradaException;
 import negocio.entidades.Sessao;
 
@@ -44,33 +42,48 @@ public class RepositorioSessoes implements IRepositorioSessoes,Serializable{
         }
     }
 
-    
     public void adicionarSessao(Sessao sessao){
         sessoes.add(sessao);
         escreverSalas();
     }
     
-    public void removerSessao(Sessao sessao) {
+    public void removerSessao(Sessao sessao){
         sessoes.remove(sessao);
         escreverSalas();
-
     }
 
     public void atualizarSessao(Sessao sessao)  {
         int index = sessoes.indexOf(sessao);
-        if (index == -1){
+        if (index != -1){
             sessoes.set(index,sessao);
             escreverSalas();
         }
     }
     public Sessao procurarSessao(Sessao sessao){
-        int index = sessoes.indexOf(sessao);
         Sessao sessaodesejada = null;
-        if (index == -1){
-            return sessaodesejada;
+        int index = sessoes.indexOf(sessao);
+        if (index != -1){
+            sessaodesejada = sessoes.get(index);
         }
         return sessaodesejada;
     }
+
+    @Override
+    public Sessao procurarSessao(String filme) {
+        Sessao sessaoprocurada = null;
+        for (Sessao sessao: sessoes){
+            if (sessoes.contains(filme)){
+                sessaoprocurada = sessao;
+                break;
+            }
+        } return sessaoprocurada;
+    }
+
+    @Override
+    public boolean existe(Sessao sessao) {
+        return sessoes.contains(sessao);
+    }
+
     public void imprimir(){
         for (Sessao sessao : sessoes) {
             System.out.println(sessao);
@@ -80,4 +93,6 @@ public class RepositorioSessoes implements IRepositorioSessoes,Serializable{
     public ArrayList<Sessao> listarTodasSessoes() {
         return this.sessoes; //Augusto
     }
+    }//mudar
 }
+
