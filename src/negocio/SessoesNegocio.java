@@ -55,6 +55,8 @@ public class SessoesNegocio {
         if (s != null) return s;
         else throw new SessaoNaoEncontradaException();
     }
-
+    public ArrayList<Sessao> imprimeSessoes(){
+        return sessoes.Buscartodas();
+    }
 
 }

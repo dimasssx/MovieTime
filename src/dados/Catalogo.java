@@ -102,10 +102,14 @@ public class Catalogo implements ICatalogo,Serializable {
         return filmeDesejado;
     }
     @Override
-    public void imprimir(){
+    public ArrayList<Filme> listarFilmes() {
+        ArrayList<Filme> filmes = new ArrayList();
         for (Filme filme : catalogo) {
-            System.out.println(filme);
+            if (filme != null) {
+                filmes.add(filme);
+            }
         }
+        return filmes;
     }
 
     @Override
