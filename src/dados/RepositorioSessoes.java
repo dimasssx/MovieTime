@@ -88,5 +88,11 @@ public class RepositorioSessoes implements IRepositorioSessoes,Serializable{
         for (Sessao sessao : sessoes) {
             System.out.println(sessao);
         }
+
+    }
+    public ArrayList<Sessao> listarTodasSessoes() {
+        return this.sessoes; //Augusto
+    }
     }//mudar
 }
+

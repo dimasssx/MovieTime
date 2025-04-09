@@ -59,4 +59,15 @@ public class Sala implements Serializable {
             System.out.println();
         }
     }
+    public Assento[][] getAssentos() { //Augusto
+        return this.assentos;
+    }
+    public boolean temAssentosDisponiveis() {
+        for (Assento[] fileira : assentos) {
+            for (Assento a : fileira) {
+                if (!a.isReservado()) return true;
+            }
+        }
+        return false;
+    }
 }

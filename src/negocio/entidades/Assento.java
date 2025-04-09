@@ -19,4 +19,7 @@ public class Assento implements Serializable {
     public String toString() {
         return  "" + (char)('A'+(8-linha))+coluna ;
     }
+    public void reservar() { //Augusto
+        this.reservado = true;
+    }
 }
