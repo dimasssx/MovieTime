@@ -6,22 +6,22 @@ import java.io.Serializable;
 
 public class Assento implements Serializable {
     private static final long serialVersionUID = 1L;
-    private int linha;
-    private int coluna;
+    private int fileira;
+    private int poltrona;
     private boolean reservado;
 
-    public Assento(int linha, int coluna) {
-        this.linha = linha;
-        this.coluna = coluna;
+    public Assento(int fileira, int poltrona) {
+        this.fileira = fileira;
+        this.poltrona = poltrona;
         this.reservado = false;
     }
 
-    public int getLinha() {
-        return linha;
+    public int getFileira() {
+        return fileira;
     }
 
-    public int getColuna() {
-        return coluna;
+    public int getPoltrona() {
+        return poltrona;
     }
 
     public boolean getReservado() {
@@ -41,7 +41,8 @@ public class Assento implements Serializable {
 
     @Override
     public String toString() {
-        return "" + (char) ('A' + (8 - linha)) + coluna + (reservado ? "(R)" : "");
+        return "" + (char) ('A' + (8 - fileira)) + poltrona + (reservado ? "(R)" : "");
     }
+
 }
 

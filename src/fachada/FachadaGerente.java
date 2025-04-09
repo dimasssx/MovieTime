@@ -34,8 +34,7 @@ public class FachadaGerente {
     public Filme procurarFilme(String filme) throws FilmeNaoEstaNoCatalogoException {
         return cadastroFilmes.procurarFilme(filme);
     }
-    public ArrayList<Filme> imprimirCatalogo() {
-
+    public ArrayList<Filme> imprimirCatalogo() throws NenhumFilmeEncontradoException {
         return cadastroFilmes.listarCatalogo();
     }
 

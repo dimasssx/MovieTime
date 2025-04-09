@@ -1,12 +1,13 @@
 package negocio;
 
+import dados.RepositorioClientes;
 import negocio.Exceptions.ClienteNaoEncontradoException;
 
 public class Autenticacao {
-
     private ClienteNegocio negocioCliente;
 
     public Autenticacao() {
+        this.negocioCliente = new ClienteNegocio(new RepositorioClientes());
     }
 
     public boolean autenticarGerente(String login, String senha) {

@@ -1,18 +1,17 @@
 package negocio;
 
 import negocio.Exceptions.ClienteJaExisteException;
-import negocio.entidades.Cliente;
+import dados.RepositorioClientes;
 
 public class Cadastro {
-    private ClienteNegocio negocioCLiente;
+    private ClienteNegocio negocioCliente;
 
     public Cadastro() {
-
+        this.negocioCliente = new ClienteNegocio(new RepositorioClientes());
     }
 
     public void cadastrarCliente(String nome, String login, String senha) throws ClienteJaExisteException {
-        negocioCLiente.adicionarCliente(nome, login, senha);
+        negocioCliente.adicionarCliente(nome, login, senha);
     }
-
 
 }

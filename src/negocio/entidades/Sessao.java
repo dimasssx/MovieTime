@@ -4,6 +4,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.MonthDay;
 import java.time.LocalTime;
+
+import negocio.Exceptions.AssentoIndisponivelException;
 import negocio.entidades.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -36,7 +38,12 @@ public class Sessao implements Serializable {
             }
         }
     }
-
+    public Assento getAssento(int fileira, int poltrona) {
+        if (fileira < 0 || fileira >= assentos.length || poltrona < 0 || poltrona >= assentos[0].length) {
+            return null;
+        }
+        return assentos[fileira][poltrona];
+    }
     @Override
     public String toString() {
         DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MM");
@@ -45,15 +52,19 @@ public class Sessao implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Sessao sessao = (Sessao) o;
-        return Objects.equals(horario, sessao.horario) && Objects.equals(sala, sessao.sala) && Objects.equals(dia,sessao.dia) ;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Sessao sessao = (Sessao) obj;
+        return horario.equals(sessao.horario) &&
+                dia.equals(sessao.dia) &&
+                sala.getCodigo().equals(sessao.sala.getCodigo());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(horario, sala,dia);
+        return horario.hashCode() + dia.hashCode() + sala.getCodigo().hashCode();
     }
     
     public Sala getSala() { //Augusto
@@ -70,4 +81,46 @@ public class Sessao implements Serializable {
         return this.dia.format(formatter);
     }
 
+    public void mostrarAssentos() {
+        System.out.println("Mapa de assentos - " + filme.getTitulo() + " às " + horario + " (" + getDiaFormatado() + ")");
+        for (int i = 0; i < assentos.length; i++) {
+            System.out.print((char) ('A' + i) + " ");
+            for (int j = 0; j < assentos[i].length; j++) {
+                if (assentos[i][j].getReservado()) {
+                    System.out.print("[X] ");
+                } else {
+                    System.out.print("[ ] ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.print("   ");
+        for (int j = 0; j < assentos[0].length; j++) {
+            System.out.print((j + 1) + "   ");
+        }
+        System.out.println("\nLegenda: [ ] disponível | [X] reservado");
+    }
+
+    public boolean reservarAssento(int fileira, int numero) throws AssentoIndisponivelException {
+        if (fileira >= 0 && fileira < assentos.length && numero >= 0 && numero < assentos[0].length) {
+            if (!assentos[fileira][numero].getReservado()) {
+                assentos[fileira][numero].reservar(); // Marca como reservado
+                return true;
+            }
+        }
+        return false; // Não conseguiu reservar
+    }
+
+    public int assentosDisponiveis(){
+        int disponiveis = 0;
+        for (int i = 0; i < assentos.length; i++) {
+            for (int j = 0; j < assentos[i].length; j++) {
+                if (!assentos[i][j].getReservado()) {
+                    disponiveis++;
+                }
+            }
+        }
+        return disponiveis;
+    }
 }
+

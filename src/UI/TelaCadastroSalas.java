@@ -6,6 +6,7 @@ import negocio.entidades.Sala;
 import negocio.entidades.Sala2D;
 import negocio.entidades.Sala3D;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TelaCadastroSalas {
@@ -26,8 +27,17 @@ public class TelaCadastroSalas {
             System.out.println("4 - Voltar");
 
 
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
+            int opcao = -1;
+
+            try {
+                opcao = scanner.nextInt();
+                scanner.nextLine();
+            } catch (Exception e) {
+                System.err.println("Digite um número");
+                scanner.nextLine();
+                continue;
+            }
+
             switch (opcao){
                 case 1:
                     adicionarSala();
@@ -39,41 +49,61 @@ public class TelaCadastroSalas {
                     listarSalas();
                     break;
                 case 4:
-                    TelaGerente telaGerente = new TelaGerente(fachada);
-                    telaGerente.iniciar();
-                    break;
+                    return;
+                default:
+                    System.err.println("Opção Inválida");
 
             }
         }
     }
 
     private void adicionarSala(){
-        System.out.println("Código");
+
+        System.out.println("Código da Sala:");
         String codigo = scanner.nextLine();
-        System.out.println("Tipo(2D/3D)");
+
+        System.out.println("Tipo da Sala (2D/3D)");
         String tipo = scanner.nextLine();
-        System.out.println("Quantidade de linhas de poltronas:");
-        int linhas = scanner.nextInt();
-        System.out.println("Quantidade de colunas de poltronas");
-        int colunas = scanner.nextInt();
-        if(tipo.equalsIgnoreCase("2D")) {
-            Sala sala = new Sala2D(codigo, linhas, colunas);
-            try {
-                fachada.adicionarSala(sala);
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
 
-            }
-        } else if (tipo.equalsIgnoreCase("3D")) {
-            Sala sala = new Sala3D(codigo, linhas, colunas);
-            try {
-                fachada.adicionarSala(sala);
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+        int linhas = 0, colunas = 0;
 
+        while(true){
+            try {
+                System.out.println("Quantidade de linhas de poltronas:");
+                linhas = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.err.println("Digite um numero valido");
+                scanner.nextLine();
             }
         }
-    }
+
+        while(true){
+            try {
+                System.out.println("Quantidade de colunas de poltronas:");
+                colunas = scanner.nextInt();
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.err.println("Digite um numero valido");
+                scanner.nextLine();
+            }
+        }
+        Sala sala = null;
+
+        if(tipo.equalsIgnoreCase("2D")) {
+            sala = new Sala2D(codigo, linhas, colunas);
+        } else if (tipo.equalsIgnoreCase("3D")) {
+            sala = new Sala3D(codigo, linhas, colunas);
+        }
+        try {
+            fachada.adicionarSala(sala);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            }
+        }
+
     private void removerSala(){
         System.out.println("O código da sala que será removida");
         String codigo = scanner.nextLine();

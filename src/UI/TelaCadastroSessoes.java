@@ -36,8 +36,16 @@ public class TelaCadastroSessoes {
             String titulo,codigo,horario,dia;
             Sala sala = null;
 
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
+            int opcao = -1;
+
+            try {
+                opcao = scanner.nextInt();
+                scanner.nextLine();
+            } catch (Exception e) {
+                System.err.println("Digite um número");
+                scanner.nextLine();
+                continue;
+            }
 
             switch (opcao){
                 case 1:
@@ -59,9 +67,7 @@ public class TelaCadastroSessoes {
                     imprimeTodasSessoes();
                     break;
                 case 7:
-                    TelaGerente telaGerente = new TelaGerente(fachada);
-                    telaGerente.iniciar();
-                    break;
+                    return;
 
                 default:
                     System.out.println("Opção Invalida");
@@ -82,7 +88,7 @@ public class TelaCadastroSessoes {
             System.err.println(e);
             iniciar();
         }
-        System.out.println("Horario");
+        System.out.println("Horario (hh:mm)");
         String horario = scanner.nextLine();
         System.out.println("Codigo da Sala");
         String codigo = scanner.nextLine();
@@ -180,4 +186,3 @@ public class TelaCadastroSessoes {
         }
     }
 }
-

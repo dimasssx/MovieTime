@@ -1,64 +1,143 @@
 package UI;
 
+import fachada.Cinema;
 import fachada.FachadaCliente;
 import fachada.FachadaGerente;
+import negocio.Exceptions.AssentoIndisponivelException;
+import negocio.Exceptions.NenhumFilmeEncontradoException;
 import negocio.Exceptions.SessaoNaoEncontradaException;
+import negocio.SessoesNegocio;
 import negocio.entidades.Cliente;
 import negocio.entidades.*;
 
+import java.time.MonthDay;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TelaCliente {
-   // private FachadaCliente fachada;
+    MonthDay hoje;
+    private FachadaCliente fachada;
     private Scanner scanner;
 
-    public TelaCliente() {
-         scanner = new Scanner(System.in);
+    public TelaCliente(FachadaCliente fachada) {
+        this.fachada = fachada;
+        scanner = new Scanner(System.in);
+        hoje = MonthDay.now();
     }
 
-    public void iniciar()  {
+    public void iniciar() {
+
         System.out.println("Bem-vindo ao MovieTime");
         System.out.println("---------------------------");
-        exibirCatalogo();
+        exibirCatalogo(); //somente dos filmes de hoje
+
         while(true){
             System.out.println("1 - Comprar ingresso");
-            System.out.println("2 - Buscar Filme");
+            System.out.println("2 - Buscar sessões por dia");
+            System.out.println("3 - Buscar sessoes por filme");
+            System.out.println("4 - Logout");
 
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
+            int opcao = -1;
+
+            try {
+                opcao = scanner.nextInt();
+                scanner.nextLine();
+            } catch (Exception e) {
+                System.err.println("Digite um número");
+                scanner.nextLine();
+                continue;
+            }
 
             switch (opcao){
                 case 1:
-                    //comprarIngresso();
+                    TelaComprarIngresso comprar = new TelaComprarIngresso(fachada);
+                    try {
+                        comprar.iniciar();
+                    } catch (AssentoIndisponivelException | SessaoNaoEncontradaException e) {
+                        System.err.println(e);
+                    }
                     break;
                 case 2:
-               //    buscarFilme();
+                    try {
+                        buscarporDia();
+                    } catch (NenhumFilmeEncontradoException e) {
+                        System.err.println(e);
+                    }
                     break;
+                case 3:
+                    //buscarsessoes
+                    break;
+                case 4:
+                    System.out.println("Saindo...");
+                    return;
                 default:
-                    System.out.println("Opcao invalida");
+                    System.err.println("Opcao invalida");
             }
         }
     }
     public void exibirCatalogo() {
-        System.out.println("Catalogo de Filmes:");
-        System.out.println("--------------");
-        FachadaGerente fachadaCliente = new FachadaGerente();
-        ArrayList<Filme> filmes = fachadaCliente.imprimirCatalogo();
+        System.out.println("Filmes em Cartaz Hoje:" + hoje.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM")));
+        System.out.println("-------------------");
+        FachadaCliente fachadaCliente= new FachadaCliente();
+        ArrayList<Filme> filmes = null;
+        try {
+            filmes = fachadaCliente.imprimirCatalogo();
+        } catch (NenhumFilmeEncontradoException e) {
+            e.getMessage();
+        }
 
         for (Filme filme : filmes) {
             try {
                 ArrayList<Sessao> sessoes = fachadaCliente.procurarSessaoTitulo(filme.getTitulo());
                 if (sessoes.isEmpty()) {
-                    continue;
+                   continue;
                 }
                 System.out.println("Filme: " + filme);
-                System.out.println("Sessoes disponiveis:");
+               System.out.println("Sessoes disponiveis:");
                 for (Sessao sessao : sessoes) {
-                    System.out.println(sessao.getSala().getCodigo() + " " + sessao.getSala().getTipo() + " " + sessao.getHorario() + " - " + sessao.getDiaFormatado());
-                }
+                    if (sessao.getDia().equals(hoje)){
+                        System.out.println(sessao.getSala().getCodigo() + " " + sessao.getSala().getTipo() + " " + sessao.getHorario() + " - " + sessao.getDiaFormatado());
+                    }
+               }
             } catch (SessaoNaoEncontradaException e) {
             }
         }
     }
+    
+    public void buscarporDia() throws NenhumFilmeEncontradoException {
+        System.out.println("Digite a Data: (dd-MM)");
+        String datainput = scanner.nextLine();
+
+        try {
+            MonthDay diaescolhido = MonthDay.parse(datainput, DateTimeFormatter.ofPattern("dd-MM"));
+            System.out.println("Sessões para o dia: " + diaescolhido.format(DateTimeFormatter.ofPattern("dd-MM")));
+
+            ArrayList<Filme> filmes = fachada.imprimirCatalogo();
+            boolean encontrouSessao = false;
+
+            for (Filme filme : filmes) {
+                try {
+                    ArrayList<Sessao> sessoes = fachada.procurarSessaoTitulo(filme.getTitulo());
+
+                    for (Sessao s : sessoes) {
+                        if (s.getDia().equals(diaescolhido)) {
+                            System.out.println("Filme: " + filme.getTitulo());
+                            System.out.println(s);
+                            encontrouSessao = true;
+                        }
+                    }
+                } catch (SessaoNaoEncontradaException e) {
+                }
+            }
+
+            if (!encontrouSessao) {
+                System.out.println("Nenhuma sessão encontrada para esta data.");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Formato de data inválido. Use dd-MM.");
+        }
+    }
 }
+

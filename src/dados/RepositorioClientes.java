@@ -22,7 +22,7 @@ public class RepositorioClientes implements IRepositorioClientes, Serializable {
         }
     }
 
-    @Override
+
     public void lerClientes() {
         try (FileInputStream fis = new FileInputStream(file)) {
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -33,7 +33,7 @@ public class RepositorioClientes implements IRepositorioClientes, Serializable {
         }
     }
 
-    @Override
+
     public void escritaClientes() {
         try (FileOutputStream fos = new FileOutputStream(file)) {
             ObjectOutput oos = new ObjectOutputStream(fos);
@@ -48,10 +48,12 @@ public class RepositorioClientes implements IRepositorioClientes, Serializable {
     public void adicionarCliente(Cliente cliente) {
         clientes.add(cliente);
         escritaClientes();
+        lerClientes();
     }
 
     @Override
     public boolean validarCliente(String login, String senha) {
+        lerClientes();
         boolean clienteEncontrado = false;
         for(Cliente u : clientes){
             if(u.getLogin().equals(login) && u.getSenha().equals(senha)){

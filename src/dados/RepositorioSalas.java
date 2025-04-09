@@ -74,7 +74,6 @@ public class RepositorioSalas implements IRepositorioSalas, Serializable {
                return s;
            }
         }
-        System.out.println("NAO ENCONTREI ZÉ");
         return null;
     }
 

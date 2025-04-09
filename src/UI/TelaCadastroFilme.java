@@ -4,6 +4,7 @@ import dados.Catalogo;
 import fachada.FachadaGerente;
 import negocio.Exceptions.FilmeJaEstanoCatalogoException;
 import negocio.Exceptions.FilmeNaoEstaNoCatalogoException;
+import negocio.Exceptions.NenhumFilmeEncontradoException;
 import negocio.entidades.Filme;
 
 import java.util.ArrayList;
@@ -29,8 +30,16 @@ public class TelaCadastroFilme {
             System.out.println("6 - Voltar");
 
 
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
+            int opcao = -1;
+            try {
+                opcao = scanner.nextInt();
+                scanner.nextLine();
+            } catch (Exception e) {
+                System.err.println("Digite um número");
+                scanner.nextLine();
+                continue;
+            }
+
             switch (opcao){
                 case 1:
                     adicionarFilme();
@@ -46,12 +55,14 @@ public class TelaCadastroFilme {
                     break;
                 case 5:
                     System.out.println("Catalogo de Filmes");
-                    listarFilmes();
+                    try {
+                        listarFilmes();
+                    } catch (NenhumFilmeEncontradoException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 6:
-                    TelaGerente telaGerente = new TelaGerente(fachada);
-                    telaGerente.iniciar();
-                    break;
+                    return;
 
             }
         }
@@ -108,7 +119,7 @@ public class TelaCadastroFilme {
             System.err.println(e.getMessage());
         }
     }
-    private void listarFilmes(){
+    private void listarFilmes() throws NenhumFilmeEncontradoException {
         ArrayList<Filme> f = fachada.imprimirCatalogo();
         for (Filme filme : f) {
             System.out.println(filme);

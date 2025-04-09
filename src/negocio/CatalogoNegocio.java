@@ -3,6 +3,7 @@ package negocio;
 import dados.*;
 import negocio.Exceptions.FilmeJaEstanoCatalogoException;
 import negocio.Exceptions.FilmeNaoEstaNoCatalogoException;
+import negocio.Exceptions.NenhumFilmeEncontradoException;
 import negocio.entidades.Filme;
 
 import java.util.ArrayList;
@@ -52,8 +53,10 @@ public class CatalogoNegocio {
             throw new FilmeNaoEstaNoCatalogoException();
         }else return filmeprocurado;
     }
-    public ArrayList<Filme> listarCatalogo(){
+    public ArrayList<Filme> listarCatalogo() throws NenhumFilmeEncontradoException {
+        if(catalogo.listarFilmes().isEmpty()){
+            throw new NenhumFilmeEncontradoException();
+        }
         return catalogo.listarFilmes();
     }
-
 }

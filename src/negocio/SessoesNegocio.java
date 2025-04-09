@@ -2,6 +2,7 @@ package negocio;
 
 import dados.IRepositorioSalas;
 import dados.IRepositorioSessoes;
+import negocio.Exceptions.AssentoIndisponivelException;
 import negocio.Exceptions.SessaoNaoEncontradaException;
 import negocio.Exceptions.SessaojaExisteException;
 import negocio.entidades.Sala;
@@ -43,6 +44,16 @@ public class SessoesNegocio {
         else throw new SessaoNaoEncontradaException();
 
     }
+    public Sessao procurarSessao(String sdia, String filme, String shorario) throws SessaoNaoEncontradaException {
+        LocalTime horario = LocalTime.parse(shorario);
+        DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MM");
+        MonthDay dia = MonthDay.parse(sdia, formater);
+
+        Sessao sessaoprocurada = sessoes.procurarSessao(dia,filme,horario);
+        if (sessaoprocurada!= null) return sessaoprocurada;
+        else throw new SessaoNaoEncontradaException();
+
+    }
     public ArrayList<Sessao> procurarSessao(String titulo) throws SessaoNaoEncontradaException {
         ArrayList<Sessao> s = sessoes.procurarSessao(titulo);
         if (s != null) return s;
@@ -55,6 +66,21 @@ public class SessoesNegocio {
         if (s != null) return s;
         else throw new SessaoNaoEncontradaException();
     }
+
+    public void mostrarAssentosDaSessao(Sessao sessao) throws SessaoNaoEncontradaException {
+        sessao.mostrarAssentos();
+    }
+
+    public void reservarAssento(Sessao sessao, int fileira, int poltrona) throws AssentoIndisponivelException {
+        boolean reservado = sessao.reservarAssento(fileira, poltrona);
+        if (reservado) {
+            sessoes.atualizarSessao(sessao);
+        } else {
+            throw new AssentoIndisponivelException("Assento indisponivel");
+        }
+    }
+
+
     public ArrayList<Sessao> imprimeSessoes(){
         return sessoes.Buscartodas();
     }
