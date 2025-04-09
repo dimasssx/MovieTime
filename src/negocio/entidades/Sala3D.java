@@ -7,8 +7,8 @@ public class Sala3D extends Sala implements Serializable {
     @Serial
     private static final long serialVersionUID = -4009776605163947716L;
 
-    public Sala3D(String codigo, int linhas, int colunas) {
-        super(codigo, linhas, colunas);
+    public Sala3D(String codigo, int fileiras, int assentosPorFileira) {
+        super(codigo, fileiras, assentosPorFileira);
     }
 
     @Override
@@ -18,12 +18,13 @@ public class Sala3D extends Sala implements Serializable {
 
     @Override
     public String toString() {
-        return "Sala3D{" +
-                "codigo='" + getCodigo() + '\'' +
-                ", linhas=" + getLinhas() +
-                ", colunas=" + getColunas() +
-                '}';
+        return "Sala: " + getCodigo() + ", Tipo: 3D"+
+                ", Fileiras: " + getFileiras() +
+                ", Assentos por Fileiras:" + getAssentosPorFileira();
         }
+    public String getTipo(){
+        return "3D";
+    }
     }
 
 

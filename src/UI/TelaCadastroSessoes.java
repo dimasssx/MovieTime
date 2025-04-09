@@ -21,14 +21,16 @@ public class TelaCadastroSessoes {
 
     public void iniciar(){
         System.out.println("Tela Cadastro Sessoes");
+
         while (true){
             System.out.println("1 - Adicionar Sessao");
             System.out.println("2 - Remover Sessao");
             System.out.println("3 - Atualizar Sessao");
             System.out.println("4 - Buscar Sessoes por titulo de Filme");
             System.out.println("5 - Listar Sessoes do dia");
-            System.out.println("6 - Voltar");
-            System.out.println("7 apagar listar todas");
+            System.out.println("6 - Listar Todas as Sessoes");
+            System.out.println("7 - Voltar");
+
             Sessao sessao;
             Filme filme = null;
             String titulo,codigo,horario,dia;
@@ -54,12 +56,13 @@ public class TelaCadastroSessoes {
                     buscarSessaoDia();
                     break;
                 case 6:
+                    imprimeTodasSessoes();
+                    break;
+                case 7:
                     TelaGerente telaGerente = new TelaGerente(fachada);
                     telaGerente.iniciar();
                     break;
-                case 7:
-                    RepositorioSessoes REP= new RepositorioSessoes();
-                    REP.listarTodos();
+
                 default:
                     System.out.println("Opção Invalida");
 
@@ -77,6 +80,7 @@ public class TelaCadastroSessoes {
             filme = fachada.procurarFilme(titulo);
         } catch (FilmeNaoEstaNoCatalogoException e) {
             System.err.println(e);
+            iniciar();
         }
         System.out.println("Horario");
         String horario = scanner.nextLine();
@@ -167,6 +171,12 @@ public class TelaCadastroSessoes {
         }
         for (Sessao s : dias){
             System.out.println(s);
+        }
+    }
+    private void imprimeTodasSessoes(){
+        ArrayList<Sessao> s = fachada.imprimirSessoes();
+        for (Sessao sessao : s) {
+            System.out.println(sessao);
         }
     }
 }

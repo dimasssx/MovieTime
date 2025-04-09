@@ -5,6 +5,8 @@ import negocio.Exceptions.FilmeJaEstanoCatalogoException;
 import negocio.Exceptions.FilmeNaoEstaNoCatalogoException;
 import negocio.entidades.Filme;
 
+import java.util.ArrayList;
+
 public class CatalogoNegocio {
 
     ICatalogo catalogo;
@@ -50,8 +52,8 @@ public class CatalogoNegocio {
             throw new FilmeNaoEstaNoCatalogoException();
         }else return filmeprocurado;
     }
-    public void listarCatalogo(){
-        catalogo.imprimir();
+    public ArrayList<Filme> listarCatalogo(){
+        return catalogo.listarFilmes();
     }
 
 }

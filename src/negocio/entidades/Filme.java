@@ -36,10 +36,10 @@ public class Filme implements Serializable {
 
     @Override
     public String toString() {
-        return "negocio.entidades.Filme:" + titulo +
-                " genero='" + genero + '\'' +
-                ", duracao='" + duracao + '\'' +
-                ", classificacao='" + classificacao + '\'';
+        return "Titulo: " + titulo +
+                ", Genero: " + genero +
+                ", Duração: " + duracao +
+                ", Classificação: " + classificacao;
     }
 
     @Override

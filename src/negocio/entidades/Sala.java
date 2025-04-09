@@ -15,53 +15,36 @@ public abstract class Sala implements Serializable {
 
     private static final RepositorioSalas repositorio = new RepositorioSalas();
     private final String codigo;
-    private final int linhas;
-    private final int colunas;
+    private final int fileiras;
+    private final int assentosPorFileira;
     protected double precoBaseIngresso;
-    protected Assento[][] assentos;
 
-
-    public Sala(String codigo, int linhas, int colunas) {
+    public Sala(String codigo, int fileiras, int assentosPorFileira) {
         this.codigo = codigo;
-        this.linhas = linhas;
-        this.colunas = colunas;
-        this.assentos = new Assento[linhas][colunas];
-        inicializarAssentos();
-    }
-
-    private void inicializarAssentos() {
-        for (int i = 0; i < linhas; i++) {
-            for (int j = 0; j < colunas; j++) {
-                assentos[i][j] = new Assento(i + 1, j + 1);
-            }
-        }
+        this.fileiras = fileiras;
+        this.assentosPorFileira = assentosPorFileira;
     }
 
     public String getCodigo() {
         return codigo;
     }
 
-    public int getLinhas() {
-        return linhas;
+    public int getFileiras() {
+        return fileiras;
     }
 
-    public int getColunas() {
-        return colunas;
-    }
-
-    public Assento[][] getAssentos() {
-        return assentos;
+    public int getAssentosPorFileira() {
+        return assentosPorFileira;
     }
 
     public abstract double calcularPrecoIngresso();
+    public abstract String getTipo();
 
     @Override
     public String toString() {
-        return "Sala{" +
-                "codigo='" + codigo + '\'' +
-                ", linhas=" + linhas +
-                ", colunas=" + colunas +
-                '}';
+        return "Codigo Sala: " + codigo +
+                ", Fileiras" + fileiras +
+                ", Assentos Por Fileiras" + assentosPorFileira;
     }
 
     @Override

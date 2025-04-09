@@ -34,8 +34,9 @@ public class FachadaGerente {
     public Filme procurarFilme(String filme) throws FilmeNaoEstaNoCatalogoException {
         return cadastroFilmes.procurarFilme(filme);
     }
-    public void imprimirCatalogo(){
-        cadastroFilmes.listarCatalogo();
+    public ArrayList<Filme> imprimirCatalogo() {
+
+        return cadastroFilmes.listarCatalogo();
     }
 
 
@@ -56,7 +57,9 @@ public class FachadaGerente {
     public ArrayList<Sessao> procurarSessaoTitulo(String titulo) throws SessaoNaoEncontradaException {
         return cadastroSessoes.procurarSessao(titulo);
     }
-
+    public ArrayList imprimirSessoes(){
+        return cadastroSessoes.imprimeSessoes();
+    }
 
 
     //operacoes de gerenciamento de salas

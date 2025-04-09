@@ -134,10 +134,15 @@ public class RepositorioSessoes implements IRepositorioSessoes, Serializable {
         return sessoes.contains(sessao);
     }
 
-    public void listarTodos() {
+    @Override
+    public ArrayList<Sessao> Buscartodas() {
+        ArrayList<Sessao> sessoesFilmes = new ArrayList<>();
         for (Sessao s : sessoes) {
-            System.out.println(s);
+            if (s!= null) {
+                sessoesFilmes.add(s);
+            }
         }
+        return sessoesFilmes;
     }
 }
 
