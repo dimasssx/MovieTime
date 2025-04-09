@@ -6,6 +6,7 @@ import negocio.Exceptions.FilmeJaEstanoCatalogoException;
 import negocio.Exceptions.FilmeNaoEstaNoCatalogoException;
 import negocio.entidades.Filme;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TelaCadastroFilme {
@@ -44,6 +45,7 @@ public class TelaCadastroFilme {
                     buscarFilme();
                     break;
                 case 5:
+                    System.out.println("Catalogo de Filmes");
                     listarFilmes();
                     break;
                 case 6:
@@ -107,7 +109,10 @@ public class TelaCadastroFilme {
         }
     }
     private void listarFilmes(){
-        fachada.imprimirCatalogo();
+        ArrayList<Filme> f = fachada.imprimirCatalogo();
+        for (Filme filme : f) {
+            System.out.println(filme);
+        }
     }
 
 }

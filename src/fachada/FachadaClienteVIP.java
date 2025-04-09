@@ -1,4 +1,4 @@
 package fachada;
 
-public class FachadaClienteVIP extends FachadaCliente {
+public class FachadaClienteVIP{
 }

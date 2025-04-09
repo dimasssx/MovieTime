@@ -4,6 +4,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.MonthDay;
 import java.time.LocalTime;
+import negocio.entidades.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -14,6 +15,9 @@ public class Sessao implements Serializable {
     private MonthDay dia;
     private Filme filme;
     private Sala sala;
+    private Assento[][] assentos;
+
+
 
     public Sessao(Filme filme, String horario,Sala sala,String dia){
         this.filme = filme;
@@ -21,15 +25,23 @@ public class Sessao implements Serializable {
         this.horario = LocalTime.parse(horario);
         DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MM");
         this.dia = MonthDay.parse(dia, formater);
+        this.assentos = new Assento[sala.getFileiras()][sala.getAssentosPorFileira()];
+        inicializarAssentos();
+    }
+
+    private void inicializarAssentos() {
+        for (int i = 0; i < sala.getFileiras(); i++) {
+            for (int j = 0; j < sala.getAssentosPorFileira(); j++) {
+                assentos[i][j] = new Assento(i + 1, j + 1);
+            }
+        }
     }
 
     @Override
     public String toString() {
-        return "negocio.entidades.Sessao{" +
-                "horario=" + horario +
-                ", filme=" + filme +
-                ", sala=" + sala + "dia: "+ dia;
+        DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MM");
 
+        return filme + "| Horario: " + horario + " "+sala + getDiaFormatado();
     }
 
     @Override
@@ -52,5 +64,10 @@ public class Sessao implements Serializable {
     }
     public LocalTime getHorario() {return this.horario;}
     public MonthDay getDia() {return this.dia;}
+
+    public String getDiaFormatado() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
+        return this.dia.format(formatter);
+    }
 
 }

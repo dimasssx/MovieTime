@@ -13,6 +13,6 @@ public interface ICatalogo {
     Filme procurarFilme(Filme filme);
     Filme procurarFilme(String nome);
     boolean existe (Filme filme);
-    void imprimir(); //fazerretornararray
+    ArrayList listarFilmes();
 
 }
